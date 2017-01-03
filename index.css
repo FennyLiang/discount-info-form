@@ -1,0 +1,53 @@
+.selected_green {
+    background-color: #B2DFDB ;
+}
+
+.selected_grey {
+    border: #B0BEC5 solid 3px;
+}
+
+html {
+    height: 100%;
+}
+
+div {
+    transition: border 0s !important;
+}
+
+.RaisedButton_noRadius, .RaisedButton_noRadius div, .RaisedButton_noRadius button {
+    border-radius: 0 !important;
+}
+
+.strechHeightAnimation {
+    transition: 0.4s height, 0.25s opacity !important;
+}
+
+.progressSpin {
+    transform:translateY(-50%);
+    positions: 0 auto;
+}
+
+.positionCenter {
+    height: 100%;
+    width: 100%;
+}
+
+@-webkit-keyframes fadeIn { from { opacity:0; opacity: 1\9; /* IE9 only */ } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; opacity: 1\9; /* IE9 only */ } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; opacity: 1\9; /* IE9 only */ } to { opacity:1; } }
+
+
+.fadeIn {
+    opacity:0;  /* make things invisible upon start */
+    -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+    -moz-animation:fadeIn ease-in 1;
+    animation:fadeIn ease-in 1;
+
+    -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+    -moz-animation-fill-mode:forwards;
+    animation-fill-mode:forwards;
+
+    -webkit-animation-duration:1s;
+    -moz-animation-duration:1s;
+    animation-duration:1s;
+}
