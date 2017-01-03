@@ -34,44 +34,34 @@ class App extends React.Component {
 
   tilesData = [
     {
-      img: 'images/grid-list/00-52-29-429_640.jpg',
+      img: '資產 2.png',
       title: 'Breakfast',
       author: 'jill111',
+      featured: true,
     },
     {
-      img: 'images/grid-list/burger-827309_640.jpg',
+      img: 'http://gratisography.com/pictures/370_1.jpg',
       title: 'Tasty burger',
       author: 'pashminu',
+      featured: true,
     },
     {
-      img: 'images/grid-list/camera-813814_640.jpg',
+      img: 'http://gratisography.com/pictures/359_1.jpg',
       title: 'Camera',
       author: 'Danson67',
+      featured: true,
     },
     {
-      img: 'images/grid-list/morning-819362_640.jpg',
-      title: 'Morning',
-      author: 'fancycrave1',
+      img: 'http://gratisography.com/pictures/346_1.jpg',
+      title: 'Tasty burger',
+      author: 'pashminu',
+      featured: true,
     },
     {
-      img: 'images/grid-list/hats-829509_640.jpg',
-      title: 'Hats',
-      author: 'Hans',
-    },
-    {
-      img: 'images/grid-list/honey-823614_640.jpg',
-      title: 'Honey',
-      author: 'fancycravel',
-    },
-    {
-      img: 'images/grid-list/vegetables-790022_640.jpg',
-      title: 'Vegetables',
-      author: 'jill111',
-    },
-    {
-      img: 'images/grid-list/water-plant-821293_640.jpg',
-      title: 'Water plant',
-      author: 'BkrmadtyaKarki',
+      img: 'http://gratisography.com/pictures/337_1.jpg',
+      title: 'Camera',
+      author: 'Danson67',
+      featured: true,
     },
   ];
 
@@ -82,13 +72,11 @@ class App extends React.Component {
         justifyContent: 'space-around',
       },
       gridList: {
-        display: 'flex',
-        flexWrap: 'nowrap',
+        width: 600,
+        height: '100%',
         overflowY: 'auto',
       },
-      titleStyle: {
-        color: 'rgb(0, 188, 212)',
-      },
+
   };
 
 
@@ -102,24 +90,27 @@ class App extends React.Component {
       <MuiThemeProvider>
 
         <div style={ {...this.fadeinStyle, ...this.styles.root}   } className={indexStyle.fadeIn} >
-          <GridList style={{...this.styles.gridList}} cols={2.2}>
-            {tilesData.map((tile) => (
+          <GridList
+            cols={1}
+            cellHeight={100}
+            padding={1}
+            style={{...this.styles.gridList}}
+          >
+            {this.tilesData.map((tile) => (
               <GridTile
                 key={tile.img}
-                title={tile.title}
-                actionIcon={<IconButton><StarBorder color="rgb(0, 188, 212)" /></IconButton>}
-                titleStyle={styles.titleStyle}
-                titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                cols={tile.featured ? 2 : 1}
+                rows={tile.featured ? 2 : 1}
               >
-                <img src={tile.img} />
+                <img src={tile.img}/>
               </GridTile>
             ))}
-
           </GridList>
         </div>
+
       </MuiThemeProvider>
     )
   }
 }
 
-reactDom.render(<App list={[1,2,3,4,5,6,7,8,9,10]} />, document.getElementById('app'));
+reactDom.render(<App />, document.getElementById('app'));
