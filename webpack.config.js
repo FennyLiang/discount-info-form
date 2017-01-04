@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var combineLoaders = require('webpack-combine-loaders');
+var babelPolyfill = require("babel-polyfill");
 
 module.exports = {
   entry: ['babel-polyfill','./index.jsx'],
