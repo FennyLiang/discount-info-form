@@ -1,10 +1,11 @@
 import React from 'react';
 import reactDom from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Card, CardMedia } from 'material-ui/Card';
+import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import indexStyle from './index.css';
 import 'whatwg-fetch';
+import Spinner from 'react-spinkit';
 
 import PlaceHolderImage from './PlaceHolderImage';
 
@@ -18,7 +19,8 @@ class App extends React.Component {
     this.state = {
       haveFun: false,
       featured: true,
-      userPromotions: []
+      userPromotions: [],
+      position: true,
     };
 
   }
@@ -60,7 +62,7 @@ class App extends React.Component {
     });
 
     const { result, data } = await resp.json();
-    console.log(data[0].promotionType)
+    // console.log(data[0].promotionType)
 
     this.setState({ userPromotions: data});
   };
@@ -68,6 +70,12 @@ class App extends React.Component {
   componentWillMount() {
     this.submitForm();
   }
+  // getInitialState() {
+  //   return {position: true};
+  // };
+  componentDidMount() {
+    setTimeout(function() { this.setState({position: false}); }.bind(this), 2000)
+  };
 
   styles = {
     root: {
@@ -94,34 +102,37 @@ class App extends React.Component {
   };
 
   fadeinStyle = {
-    animationDelay: 0.5,
-    opacity:1
+    animationDelay: 1,
+    opacity:2
   };
 
+
   render() {
-
-    return (
-      <MuiThemeProvider>
-
-        <div style={ {...this.fadeinStyle, ...this.styles.root}} className={indexStyle.fadeIn} >
-          {/*{this.state.userPromotions.length == 0 &&*/}
-            {/*<Card key={0} style={{ paddingLeft: '20px', paddingRight: '20px' }}>*/}
-              {/*<CardMedia style={{ boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px' }}>*/}
-                {/*<PlaceHolderImage aspectRatio={2 / 1} />*/}
-              {/*</CardMedia>*/}
-            {/*</Card>*/}
-          {/*}*/}
-          {this.state.userPromotions.map((userPromotion, index) => (
-            <Card key={index} style={{ paddingLeft: '20px', paddingRight: '20px' }}>
-              <CardMedia style={{ boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px' }}>
-                <PlaceHolderImage aspectRatio={2 / 1} text={userPromotion.description} />
-              </CardMedia>
-            </Card>
-          ))}
+    if (this.state.position === true) {
+      return (
+        <div>
+          <Spinner spinnerName="three-bounce" style={{textAlign: 'center', marginTop: 50}}/>
         </div>
-
-      </MuiThemeProvider>
-    )
+      )
+    } else {
+      return (
+        <MuiThemeProvider>
+          <div style={{...this.fadeinStyle, ...this.styles.root}} className={ indexStyle.fadeIn}>
+            {this.state.userPromotions.length == 0 &&
+            <h6 style={{textAlign: 'center', fontSize: 16, color: '#b0bec5'}}>查無優惠資訊</h6>
+            }
+            {this.state.userPromotions.map((userPromotion, index) => (
+              <Card key={index} style={{paddingLeft: '20px', paddingRight: '20px'}}>
+                <CardMedia
+                  style={{boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'}}>
+                  <PlaceHolderImage aspectRatio={2 / 0.7} text={userPromotion.description}/>
+                </CardMedia>
+              </Card>
+            ))}
+          </div>
+        </MuiThemeProvider>
+      )
+    }
   }
 }
 
