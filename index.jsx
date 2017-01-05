@@ -47,7 +47,7 @@ class App extends React.Component {
     var resultToken = this.getParameterByName('token', decoUrl);
     console.log(resultToken);
     const resp = await fetch('', {
-      method: 'post',
+      method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -60,6 +60,7 @@ class App extends React.Component {
     });
 
     const { result, data } = await resp.json();
+    console.log(data[0].promotionType)
 
     this.setState({ userPromotions: data});
   };
@@ -103,13 +104,13 @@ class App extends React.Component {
       <MuiThemeProvider>
 
         <div style={ {...this.fadeinStyle, ...this.styles.root}} className={indexStyle.fadeIn} >
-          {this.state.userPromotions.length == 0 &&
-            <Card key={0} style={{ paddingLeft: '20px', paddingRight: '20px' }}>
-              <CardMedia style={{ boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px' }}>
-                <PlaceHolderImage aspectRatio={2 / 1} />
-              </CardMedia>
-            </Card>
-          }
+          {/*{this.state.userPromotions.length == 0 &&*/}
+            {/*<Card key={0} style={{ paddingLeft: '20px', paddingRight: '20px' }}>*/}
+              {/*<CardMedia style={{ boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px' }}>*/}
+                {/*<PlaceHolderImage aspectRatio={2 / 1} />*/}
+              {/*</CardMedia>*/}
+            {/*</Card>*/}
+          {/*}*/}
           {this.state.userPromotions.map((userPromotion, index) => (
             <Card key={index} style={{ paddingLeft: '20px', paddingRight: '20px' }}>
               <CardMedia style={{ boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px' }}>
