@@ -1,11 +1,12 @@
 import React from 'react';
 import reactDom from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {GridList, GridTile} from 'material-ui/GridList';
+import { Card, CardMedia } from 'material-ui/Card';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import indexStyle from './index.css';
 import 'whatwg-fetch';
 
+import PlaceHolderImage from './PlaceHolderImage';
 
 class App extends React.Component {
 
@@ -16,8 +17,8 @@ class App extends React.Component {
 
     this.state = {
       haveFun: false,
-      descriptionFortoken: "鴻海專案優惠",
       featured: true,
+      userPromotions: []
     };
 
   }
@@ -29,23 +30,23 @@ class App extends React.Component {
 
 
   getParameterByName =(name, url) => {
-      if (!url) {
-        url = window.location.href;
-      }
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      var decoUrl = decodeURIComponent(results[2].replace(/\+/g, " "));
-      return decoUrl;
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    var decoUrl = decodeURIComponent(results[2].replace(/\+/g, " "));
+    return decoUrl;
   };
 
 
   async submitForm(decoUrl) {
     var resultToken = this.getParameterByName('token', decoUrl);
     console.log(resultToken);
-    const resp = await fetch('https://ede065b2.ngrok.io/GetUserPromotions', {
+    const resp = await fetch('', {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -58,46 +59,27 @@ class App extends React.Component {
       }),
     });
 
-    console.log(resp);
-
     const { result, data } = await resp.json();
-    // console.log(result, data[0].description);
 
-
-
-    if (result == 'success') {
-      this.setState({ haveFun: true, descriptionFortoken: data[0].description });
-    }
-
-    else{
-      this.setState({haveFun:false});
-    }
+    this.setState({ userPromotions: data});
   };
 
   componentWillMount() {
     this.submitForm();
   }
 
-
-  tilesData = [
-    {
-      img: 'wemoIcon.png',
-      title: '',
-    },
-
-  ];
-
   styles = {
-      root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-      },
-      gridList: {
-        width: '100%',
-        height: '100%',
-        overflowY: 'auto',
-      }
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      flexDirection: 'column',
+    },
+    gridList: {
+      width: '100%',
+      height: '100%',
+      overflowY: 'auto',
+    }
 
   };
 
@@ -107,11 +89,11 @@ class App extends React.Component {
     height: 200,
     display: 'inline-block',
     backgroundPosition: 'center',
-    border: '#EEEEEE 1px',
+
   };
 
   fadeinStyle = {
-    animationDelay: 0.7,
+    animationDelay: 0.5,
     opacity:1
   };
 
@@ -121,28 +103,20 @@ class App extends React.Component {
       <MuiThemeProvider>
 
         <div style={ {...this.fadeinStyle, ...this.styles.root}} className={indexStyle.fadeIn} >
-          <GridList
-            cols={1}
-            cellHeight={100}
-            padding={1}
-            style={{...this.styles.gridList}}
-          >
-            {this.tilesData.map((tile) => (
-              <GridTile
-                key={tile.img}
-                title={this.state.haveFun ? this.state.descriptionFortoken :this.state.descriptionFortoken}
-                titleBackground="	rgba(192,192,192,0.5)"
-                cols={this.state.featured ? 2 : 1}
-                rows={this.state.featured ? 2 : 1}
-              >
-                <div style={{...this.imageStyle, backgroundImage: this.state.haveFun?  "url(" + tile.img + ")": 'url(wemoIcon.png)', backgroundSize: this.state.haveFun? 'cover': null}}>
-                </div>
-
-                {/*backgroundSize: this.state.haveFun? 'cover': null*/}
-
-              </GridTile>
-            ))}
-          </GridList>
+          {this.state.userPromotions.length == 0 &&
+            <Card key={0} style={{ paddingLeft: '20px', paddingRight: '20px' }}>
+              <CardMedia style={{ boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px' }}>
+                <PlaceHolderImage aspectRatio={2 / 1} />
+              </CardMedia>
+            </Card>
+          }
+          {this.state.userPromotions.map((userPromotion, index) => (
+            <Card key={index} style={{ paddingLeft: '20px', paddingRight: '20px' }}>
+              <CardMedia style={{ boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px' }}>
+                <PlaceHolderImage aspectRatio={2 / 1} text={userPromotion.description} />
+              </CardMedia>
+            </Card>
+          ))}
         </div>
 
       </MuiThemeProvider>
