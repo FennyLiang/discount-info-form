@@ -2,3 +2,6 @@ node_modules
 
 *.idea
 npm-debug.log
+wemoIcon-sm-opaque.png
+wemoIcon-sm.png
+wemoIcon.png
