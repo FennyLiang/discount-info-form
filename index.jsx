@@ -74,7 +74,7 @@ class App extends React.Component {
   //   return {position: true};
   // };
   componentDidMount() {
-    setTimeout(function() { this.setState({position: false}); }.bind(this), 2000)
+    setTimeout(function() { this.setState({position: false}); }.bind(this), 1000)
   };
 
   styles = {
@@ -102,7 +102,7 @@ class App extends React.Component {
   };
 
   fadeinStyle = {
-    animationDelay: 1,
+    animationDelay: 0.7,
     opacity:2
   };
 
